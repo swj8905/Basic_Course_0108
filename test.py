@@ -2,8 +2,22 @@ from selenium import webdriver
 from chromedriver_autoinstaller import install
 import time
 
-browser = webdriver.Chrome(install())
-browser.get("https://www.chosun.com/nsearch/?query=%ED%8C%8C%EC%9D%B4%EC%8D%AC")
-title = browser.find_elements_by_css_selector("div.story-card__headline-container.\|.box--margin-bottom-xs > div > a > span")
+browser = webdriver.Chrome(install()) # 크롬브라우저 열림
+browser.implicitly_wait(5)
+browser.get("https://accounts.kakao.com/login?continue=https%3A%2F%2Flogins.daum.net%2Faccounts%2Fksso.do%3Frescue%3Dtrue%26url%3Dhttps%253A%252F%252Fwww.daum.net")
+# 로그인 하기
+id = browser.find_element_by_css_selector("input#id")
+id.send_keys("talingpython")
+pw = browser.find_element_by_css_selector("input#inputPwd")
+pw.send_keys("q1w2e3!@#")
+button = browser.find_element_by_css_selector("button#loginBtn")
+button.click()
+# time.sleep(3) # 로그인이 다될때까지 기다리기
+# 이메일함으로 이동
+browser.get("https://mail.daum.net/")
+# time.sleep(2) # 이메일함 페이지가 다 뜰때까지 기다리기
+# 이메일 제목 크롤링
+title = browser.find_elements_by_css_selector("strong.tit_subject")
 for i in title:
     print(i.text)
+browser.close()
